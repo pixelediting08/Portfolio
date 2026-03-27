@@ -98,38 +98,43 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
   });
 });
 
-/* ---- 7. Video play on click ---- */
+/* ---- 7. Portfolio item hover effects ---- */
 document.querySelectorAll('.portfolio-item').forEach(item => {
-  const video = item.querySelector('video');
-  const playRing = item.querySelector('.play-ring');
+  item.addEventListener('mouseenter', function() {
+    this.style.transform = 'translateY(-4px)';
+  });
   
-  if (video && playRing) {
-    item.addEventListener('click', function (e) {
-      e.preventDefault();
-      
-      if (video.paused) {
-        video.play();
-        video.muted = false; // Unmute when playing
-        playRing.style.opacity = '0';
-        playRing.style.pointerEvents = 'none';
-      } else {
-        video.pause();
-        playRing.style.opacity = '1';
-        playRing.style.pointerEvents = 'auto';
-      }
-    });
-    
-    // Show play button again when video ends
-    video.addEventListener('ended', function () {
-      playRing.style.opacity = '1';
-      playRing.style.pointerEvents = 'auto';
-    });
-  }
+  item.addEventListener('mouseleave', function() {
+    this.style.transform = 'translateY(0)';
+  });
 });
+
 
 /* ---- 7. Contact form submit feedback ---- */
 function handleFormSubmit(e) {
   e.preventDefault();
+
+  const contactData = {
+    name: document.getElementById("name").value,
+    phone: document.getElementById("phone").value,
+    email: document.getElementById("email").value,
+    projectType: document.getElementById("projectType").value,
+    aboutProject: document.getElementById("message").value
+  };
+
+  fetch("https://script.google.com/macros/s/AKfycbzab22ujje8m_5iSLqWz3B2tx1Kk0oZbv-tqG8DrqDINmhaRln6nYbGby5-nLRADNY2Jg/exec", {
+    method: "POST",
+    mode: "no-cors",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(contactData)
+  })
+  .then(response => {
+    console.log("contactData", contactData);
+    
+  });
+
   const success = document.getElementById('form-success');
   success.classList.add('show');
   e.target.reset();
