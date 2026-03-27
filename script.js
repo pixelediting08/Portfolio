@@ -98,6 +98,35 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
   });
 });
 
+/* ---- 7. Video play on click ---- */
+document.querySelectorAll('.portfolio-item').forEach(item => {
+  const video = item.querySelector('video');
+  const playRing = item.querySelector('.play-ring');
+  
+  if (video && playRing) {
+    item.addEventListener('click', function (e) {
+      e.preventDefault();
+      
+      if (video.paused) {
+        video.play();
+        video.muted = false; // Unmute when playing
+        playRing.style.opacity = '0';
+        playRing.style.pointerEvents = 'none';
+      } else {
+        video.pause();
+        playRing.style.opacity = '1';
+        playRing.style.pointerEvents = 'auto';
+      }
+    });
+    
+    // Show play button again when video ends
+    video.addEventListener('ended', function () {
+      playRing.style.opacity = '1';
+      playRing.style.pointerEvents = 'auto';
+    });
+  }
+});
+
 /* ---- 7. Contact form submit feedback ---- */
 function handleFormSubmit(e) {
   e.preventDefault();
